@@ -1,25 +1,41 @@
+import { motion } from "framer-motion";
+
 function Hero() {
   return (
-    <section className="text-center mt-20 px-5">
+    <section className="mx-auto mt-20 flex max-w-5xl flex-col items-center px-6 text-center">
 
-      <h1 className="text-6xl font-extrabold">
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+        className="rounded-full border border-cyan-500/20 bg-cyan-500/10 px-5 py-2 text-sm text-cyan-300"
+      >
+        AI Powered Prompt Analysis
+      </motion.p>
 
-        Diagnose.
+      <motion.h1
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="mt-8 text-6xl font-extrabold leading-tight md:text-8xl"
+      >
+        Before You Ask AI...
+        <br />
 
-        <span className="text-cyan-400">
-          Improve.
+        <span className="bg-gradient-to-r from-cyan-400 to-violet-500 bg-clip-text text-transparent">
+          Ask PromptDoctor.
         </span>
+      </motion.h1>
 
-        Perfect.
-      </h1>
-
-      <p className="mt-8 text-gray-400 text-xl max-w-2xl mx-auto">
-
-        PromptDoctor AI analyzes your prompts,
-        identifies weaknesses,
-        and rewrites them like a professional prompt engineer.
-
-      </p>
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="mt-8 max-w-2xl text-xl leading-9 text-slate-400"
+      >
+        Analyze prompts, discover weaknesses, and generate
+        professional-quality prompts before sending them to any AI model.
+      </motion.p>
 
     </section>
   );
