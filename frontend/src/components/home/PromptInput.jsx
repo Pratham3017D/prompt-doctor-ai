@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import HealthReport from "../HealthReport";
 
 const promptTemplates = [
@@ -46,28 +47,45 @@ Teach Operating Systems from beginner to advanced with examples and important in
 function PromptInput() {
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showReport, setShowReport] = useState(false);
+  const [result, setResult] = useState(null);
 
-  const diagnosePrompt = () => {
+  const diagnosePrompt = async () => {
     if (!prompt.trim()) return;
 
-    setLoading(true);
-    setShowReport(false);
+    try {
+      setLoading(true);
 
-    setTimeout(() => {
+      const response = await axios.post(
+        "http://localhost:5000/api/diagnose",
+        {
+          prompt,
+        }
+      );
+
+      setResult(response.data.result);
+
+    } catch (error) {
+      console.error("Axios Error:", error);
+
+      if (error.response) {
+        console.log("Status:", error.response.status);
+        console.log("Data:", error.response.data);
+      }
+
+      alert("Something went wrong!");
+    }
+    finally {
       setLoading(false);
-      setShowReport(true);
-    }, 2500);
+    }
   };
-
   const quality =
     prompt.length === 0
       ? "Start typing..."
       : prompt.length < 80
-      ? "🟡 Short Prompt"
-      : prompt.length < 250
-      ? "🟢 Good Prompt"
-      : "💎 Detailed Prompt";
+        ? "🟡 Short Prompt"
+        : prompt.length < 250
+          ? "🟢 Good Prompt"
+          : "💎 Detailed Prompt";
 
   return (
     <section className="mx-auto mt-24 max-w-5xl px-6">
@@ -141,9 +159,11 @@ function PromptInput() {
 
         {/* Report */}
 
-        {showReport && (
+        {/* Report */}
+
+        {result && (
           <div className="mt-10">
-            <HealthReport />
+            <HealthReport result={result} />
           </div>
         )}
 
